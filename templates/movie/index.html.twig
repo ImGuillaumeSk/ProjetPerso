@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{infoMovies.title}}
+{% endblock %}
+
+{% block body %}
+	<h1>{{infoMovies.title}}</h1>
+
+	<div class="card">
+		<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{infoMovies.poster_path}}" class="card-img-info" alt="placeholder">
+		<div class="card-body">
+			<h5>Date de sortie :
+				{{infoMovies.release_date}}</h5>
+			<h5>Durée :
+				{{infoMovies.runtime}}min</h5>
+			<p class="card-text">{{infoMovies.overview}}</p>
+		</div>
+</div>
+	{% endblock %}
