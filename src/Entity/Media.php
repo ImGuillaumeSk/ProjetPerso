@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MediaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
@@ -21,11 +22,36 @@ class Media
     #[ORM\Column(length: 255)]
     private ?string $mediaType = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    #[ORM\Column]
+    private ?bool $is_visible = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Titre = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateSortie = null;
+
+    #[ORM\Column]
+    private ?int $duree = null;
+
+    #[ORM\Column]
+    private ?float $note = null;
+
     #[ORM\OneToMany(mappedBy: 'idMedia', targetEntity: WatchedMedia::class)]
     private Collection $watchedMedias;
 
     #[ORM\OneToMany(mappedBy: 'idMedia', targetEntity: NextMedia::class)]
     private Collection $nextMedias;
+
+    #[ORM\ManyToOne(inversedBy: 'medias')]
+    private ?User $auteur = null;
+
 
     public function __construct()
     {
@@ -121,4 +147,126 @@ class Media
 
         return $this;
     }
+    
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function isIsVisible(): ?bool
+    {
+        return $this->is_visible;
+    }
+    
+    public function setIsVisible(?bool $is_visible): self
+    {
+        $this->is_visible = $is_visible;
+        
+        return $this;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->Titre;
+    }
+    
+    public function setTitre(string $Titre): self
+    {
+        $this->Titre = $Titre;
+        
+        return $this;
+    }
+
+    public function getDateSortie(): ?\DateTimeInterface
+    {
+        return $this->dateSortie;
+    }
+
+    public function setDateSortie(\DateTimeInterface $dateSortie): self
+    {
+        $this->dateSortie = $dateSortie;
+        
+        return $this;
+    }
+    
+    public function getDuree(): ?int
+    {
+        return $this->duree;
+    }
+
+    public function setDuree(int $duree): self
+    {
+        $this->duree = $duree;
+        
+        return $this;
+    }
+    
+    public function getNote(): ?float
+    {
+        return $this->note;
+    }
+    
+    public function setNote(float $note): self
+    {
+        $this->note = $note;
+        
+        return $this;
+    }
+    
+    public function getAuteur(): ?User
+    {
+        return $this->auteur;
+    }
+    
+    public function setAuteur(?User $auteur): self
+    {
+        $this->auteur = $auteur;
+        
+        return $this;
+    }
+    
+        /**
+         *
+         * @param User $user
+         * @return boolean
+         */
+        public function isWatchedMedias(User $user): bool
+        {
+            foreach ($this->watchedMedias as $watchedMedias) {
+                if ($watchedMedias->getIdUser() === $user) return true;
+            }
+            return false;
+        }
+    
+        /**
+         *
+         * @param User $user
+         * @return boolean
+         */
+        public function isNextMedias(User $user): bool
+        {
+            foreach ($this->nextMedias as $nextMedias) {
+                if ($nextMedias->getIdUser() === $user) return true;
+            }
+            return false;
+        }
 }

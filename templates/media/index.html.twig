@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Media index
+{% endblock %}
+
+{% block body %}
+	<h1>Media index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>IdAPI</th>
+				<th>Titre</th>
+				<th>MediaType</th>
+				<th>Image</th>
+				<th>Description</th>
+				<th>Note moyenne</th>
+				<th>Durée</th>
+				<th>Date de sortie</th>
+				<th>Is_visible</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for medium in media %}
+				<tr>
+					<td>{{ medium.id }}</td>
+					<td>{{ medium.idAPI }}</td>
+					<td>{{ medium.titre }}</td>
+					<td>{{ medium.mediaType }}</td>
+					<td>{{ medium.image }}</td>
+					<td>{{ medium.description }}</td>
+					<td>{{ medium.note }}</td>
+					<td>{{ medium.duree }}</td>
+					<td>{{ medium.dateSortie }}</td>
+					<td>{{ medium.isVisible ? 'Yes' : 'No' }}</td>
+					<td>
+						<a href="{{ path('app_media_show', {'id': medium.id}) }}">show</a>
+						<a href="{{ path('app_media_edit', {'id': medium.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_media_new') }}">Create new</a>
+{% endblock %}

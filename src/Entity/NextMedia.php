@@ -16,7 +16,7 @@ class NextMedia
     #[ORM\ManyToOne(inversedBy: 'nextMedias')]
     private ?Media $idMedia = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nextMedias')]
+    #[ORM\ManyToOne(inversedBy: 'nextMediaByUser')]
     private ?User $idUser = null;
 
     public function getId(): ?int

@@ -40,10 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'idUser', targetEntity: NextMedia::class)]
     private Collection $nextMedias;
 
+    #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Media::class)]
+    private Collection $medias;
+
     public function __construct()
     {
         $this->watchedMedias = new ArrayCollection();
         $this->nextMedias = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -187,4 +191,112 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    
+    // /**
+    //  *
+    //  * @param int $api_movie_id
+    //  * @return boolean
+    //  */
+    // public function hasWatchThisMovie($id_api_movie): bool
+    // {
+    //     foreach ($this->watchedMedias as $watch_media) {
+    //         if ($watch_media->id_api == $id_api_movie) return true;
+    //     }
+    //     return false;
+    // }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedias(): Collection
+    {
+        return $this->medias;
+    }
+
+    public function addMedias(Media $media): self
+    {
+        if (!$this->medias->contains($media)) {
+            $this->medias->add($media);
+            $media->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedias(Media $media): self
+    {
+        if ($this->medias->removeElement($media)) {
+            // set the owning side to null (unless already changed)
+            if ($media->getAuteur() === $this) {
+                $media->setAuteur(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    
+    
+    /**
+     * @return Collection<int, WatchedMedia>
+     */
+    public function getWatchedMediaByUser(): Collection
+    {
+        return $this->watchedMedias;
+    }
+
+    public function addWatchedMedias(WatchedMedia $watchedMedias): self
+    {
+        if (!$this->watchedMedias->contains($watchedMedias)) {
+            $this->watchedMedias->add($watchedMedias);
+            $watchedMedias->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWatchedMedias(WatchedMedia $watchedMedias): self
+    {
+        if ($this->watchedMedias->removeElement($watchedMedias)) {
+            // set the owning side to null (unless already changed)
+            if ($watchedMedias->getIdUser() === $this) {
+                $watchedMedias->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, NextMedia>
+     */
+    public function getNextMediabyUser(): Collection
+    {
+        return $this->nextMedias;
+    }
+
+    public function addNextMedias(NextMedia $nextMedias): self
+    {
+        if (!$this->nextMedias->contains($nextMedias)) {
+            $this->nextMedias->add($nextMedias);
+            $nextMedias->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNextMedias(NextMedia $nextMedias): self
+    {
+        if ($this->nextMedias->removeElement($nextMedias)) {
+            // set the owning side to null (unless already changed)
+            if ($nextMedias->getIdUser() === $this) {
+                $nextMedias->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

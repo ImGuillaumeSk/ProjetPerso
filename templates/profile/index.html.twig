@@ -1,20 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Profil
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<h2 class="title text-center mt-4">Les medias vus par {{app.user.username}} :
+		
+	</h2>
+	<div class="d-flex justify-content-around flex-wrap">
+		{% for media in watchedMedias %}
+			<div class="card" style="width: 18rem;">
+				<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{media.idMedia.image}}" class="card-img-top" alt="affiche officielle">
+				<div class="card-body">
+					<h4 class="card-title">
+						{{media.idMedia.titre}}
+					</h4>
+					<a href="{{ path('app_media_show', {'id': media.idMedia.id}) }}" class="btn btn-info">Voir en détail</a>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+					{% if app.user %}
+						{% if media.idMedia.isWatchedMedias(app.user) %}
+							<a href="{{ path('app_media_watched', {'id': media.idMedia.id}) }}" class="btn btn-success">
+								<i class="fa-solid fa-square-check"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_media_watched', {'id': media.idMedia.id}) }}" class="btn btn-secondary" role="button">Vu
+								<i class="fa-regular fa-square-check"></i>
+							</a>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Guillaume/Desktop/AP/PROJET/CODE/proj/src/Controller/ProfileController.php'|file_link(0) }}">src/Controller/ProfileController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Guillaume/Desktop/AP/PROJET/CODE/proj/templates/profile/index.html.twig'|file_link(0) }}">templates/profile/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<h2 class="title text-center mt-4">Les medias que {{app.user.username}} souhaite regarder plus tard :
+		
+	</h2>
+	<div class="d-flex justify-content-around flex-wrap">
+		{% for media in nextMedias %}
+			<div class="card" style="width: 18rem;">
+				<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{media.idMedia.image}}" class="card-img-top" alt="affiche officielle">
+				<div class="card-body">
+					<h4 class="card-title">
+						{{media.idMedia.titre}}
+					</h4>
+					<a href="{{ path('app_media_show', {'id': media.idMedia.id}) }}" class="btn btn-info">Voir en détail</a>
+
+					{% if app.user %}
+						{% if media.idMedia.isNextMedias(app.user) %}
+							<a href="{{ path('app_media_next', {'id': media.idMedia.id}) }}" class="btn btn-warning">
+								<i class="fa-solid fa-calendar-check"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_media_next', {'id': media.idMedia.id}) }}" class="btn btn-secondary" role="button">À regarder
+								<i class="fa-regular fa-calendar-check"></i>
+							</a>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}

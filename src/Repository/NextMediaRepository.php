@@ -21,7 +21,7 @@ class NextMediaRepository extends ServiceEntityRepository
         parent::__construct($registry, NextMedia::class);
     }
 
-    public function save(NextMedia $entity, bool $flush = false): void
+    public function save(NextMedia $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class NextMediaRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(NextMedia $entity, bool $flush = false): void
+    public function remove(NextMedia $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
 

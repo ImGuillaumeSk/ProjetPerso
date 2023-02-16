@@ -17,11 +17,8 @@ class WatchedMedia
     #[ORM\ManyToOne(inversedBy: 'watchedMedias')]
     private ?Media $idMedia = null;
 
-    #[ORM\ManyToOne(inversedBy: 'watchedMedias')]
+    #[ORM\ManyToOne(inversedBy: 'watchedMediaByUser')]
     private ?User $idUser = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateAdded = null;
 
     public function getId(): ?int
     {
@@ -52,15 +49,6 @@ class WatchedMedia
         return $this;
     }
 
-    public function getDateAdded(): ?\DateTimeInterface
-    {
-        return $this->dateAdded;
-    }
 
-    public function setDateAdded(\DateTimeInterface $dateAdded): self
-    {
-        $this->dateAdded = $dateAdded;
-
-        return $this;
-    }
+    
 }

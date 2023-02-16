@@ -17,14 +17,3 @@ class TvController extends AbstractController
         ]);
     }
 }
-
-class MovieController extends AbstractController
-{
-    #[Route('/movie/{movie_id}', name: 'app_movie')]
-    public function index(CallApiService $callApiService, $movie_id): Response
-    {
-        return $this->render('movie/index.html.twig', [
-            'infoMovies' => $callApiService->getMovieData($movie_id),
-        ]);
-    }
-}
