@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{infoTvs.name}}
+{% endblock %}
+
+{% block body %}
+	<h1 class="titleInfo">{{infoTvs.name}}</h1>
+
+	<div class="cardInfo">
+		<div class="imgDateRuntime">
+			<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{infoTvs.poster_path}}" class="cardImgInfo" alt="placeholder">
+			<h5>Date de sortie :
+				{{infoTvs.first_air_date}}</h5>
+		</div>
+		<div class="card-body">
+			<p class="cardTextInfo">{{infoTvs.overview|raw}}</p>
+			<p class="card-text">Note moyenne: {{ infoTvs.vote_average }}</p>
+		</div>
+	</div>
+
+
+{% endblock %}

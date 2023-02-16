@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block body %}
+	<h2 class="title text-center mt-4">Les medias vus par {{app.user.username}} :
+		
+	</h2>
+	<div class="d-flex justify-content-around flex-wrap">
+		{% for media in watchedMedias %}
+			<div class="card" style="width: 18rem;">
+				<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{media.idMedia.image}}" class="card-img-top" alt="affiche officielle">
+				<div class="card-body">
+					<h4 class="card-title">
+						{{media.idMedia.titre}}
+					</h4>
+					<a href="{{ path('app_media_show', {'id': media.idMedia.id}) }}" class="btn btn-info">Voir en détail</a>
+
+					{% if app.user %}
+						{% if media.idMedia.isWatchedMedias(app.user) %}
+							<a href="{{ path('app_media_watched', {'id': media.idMedia.id}) }}" class="btn btn-success">
+								<i class="fa-solid fa-square-check"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_media_watched', {'id': media.idMedia.id}) }}" class="btn btn-secondary" role="button">Vu
+								<i class="fa-regular fa-square-check"></i>
+							</a>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<h2 class="title text-center mt-4">Les medias que {{app.user.username}} souhaite regarder plus tard :
+		
+	</h2>
+	<div class="d-flex justify-content-around flex-wrap">
+		{% for media in nextMedias %}
+			<div class="card" style="width: 18rem;">
+				<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{media.idMedia.image}}" class="card-img-top" alt="affiche officielle">
+				<div class="card-body">
+					<h4 class="card-title">
+						{{media.idMedia.titre}}
+					</h4>
+					<a href="{{ path('app_media_show', {'id': media.idMedia.id}) }}" class="btn btn-info">Voir en détail</a>
+
+					{% if app.user %}
+						{% if media.idMedia.isNextMedias(app.user) %}
+							<a href="{{ path('app_media_next', {'id': media.idMedia.id}) }}" class="btn btn-warning">
+								<i class="fa-solid fa-calendar-check"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_media_next', {'id': media.idMedia.id}) }}" class="btn btn-secondary" role="button">À regarder
+								<i class="fa-regular fa-calendar-check"></i>
+							</a>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

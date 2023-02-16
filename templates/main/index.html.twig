@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+
+	{% if is_granted('ROLE_ADMIN') %}
+		<div class="text-center mt-3">
+			<a href="{{ path('app_media_new') }}" class="btn btn-success">Ajouter un nouveau media</a>
+		</div>
+	{% endif %}
+
+	<div class="cards-container d-flex justify-content-around flex-wrap gap-1 col-sm-12 mb-6 mb-sm-0">
+		{% for media in medias %}
+			<div class="card" style="width: 18rem; gap-1">
+				<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{media.image}}" class="card-img-top" alt="affiche officielle">
+				<div class="card-body">
+					<h4 class="card-title">{{ media.titre }}</h4>
+					<a href="{{ path('app_media_show', {'id': media.id}) }}" class="btn btn-info">Voir en détail</a>
+				</div>
+				<div class="card-body">
+					{% if app.user %}
+						{% if media.isWatchedMedias(app.user) %}
+							<a href="{{ path('app_media_watched', {'id': media.id}) }}" class="btn btn-success">
+								<i class="fa-solid fa-square-check"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_media_watched', {'id': media.id}) }}" class="btn btn-secondary" role="button">Vu
+								<i class="fa-regular fa-square-check"></i>
+							</a>
+						{% endif %}
+					{% endif %}
+
+					{% if app.user %}
+						{% if media.isNextMedias(app.user) %}
+							<a href="{{ path('app_media_next', {'id': media.id}) }}" class="btn btn-warning">
+								<i class="fa-solid fa-calendar-check"></i>
+							</a>
+						{% else %}
+							<a href="{{ path('app_media_next', {'id': media.id}) }}" class="btn btn-secondary" role="button">À regarder
+								<i class="fa-regular fa-calendar-check"></i>
+							</a>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

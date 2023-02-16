@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Films populaires{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<h3>Films populaires</h3>
+	<div class="cards-container d-flex justify-content-around flex-wrap gap-1">
+		{% for popMovie in popMovies %}
+			<div class="card" style="width: 18rem; gap-1">
+				<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{popMovie.poster_path}}" class="card-img-top" alt="placeholder">
+				<div class="card-body">
+					<h5 class="card-title">{{ popMovie.title }}</h5>
+					<p class="card-text">{{ popMovie.release_date }}</p>
+					<a href="{{ path('app_movie', {'movie_id': popMovie.id}) }}" class="btn btn-info">Plus d'infos</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

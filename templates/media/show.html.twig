@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Media
+{% endblock %}
+
+{% block body %}
+	<h1 class="titleInfo">{{medium.titre}}</h1>
+
+	<div class="cardInfo">
+		<div class="imgDateRuntime">
+			<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{medium.image}}" class="cardImgInfo" alt="placeholder">
+			<h5>Date de sortie :
+				{{medium.dateSortie.format('d/m/Y')}}</h5>
+			<h5>Durée :
+				{{medium.duree}}min</h5>
+		</div>
+		<div class="card-body">
+			<p class="cardTextInfo">{{medium.description|raw}}</p>
+			<p class="card-text">Note moyenne:
+				{{ medium.note }}</p>
+		</div>
+	</div>
+
+
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('app_media_index') }}" class="btn btn-info">Retour à la liste</a>
+
+		<a href="{{ path('app_media_edit', {'id': medium.id})}}" class="btn btn-light">Editer</a>
+
+		{{ include('media/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}
